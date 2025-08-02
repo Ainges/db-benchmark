@@ -1,18 +1,12 @@
-package de.thi;
+package de.thi.benchmark;
 
 import de.thi.entity.Order;
-import de.thi.entity.Product;
 import de.thi.entity.User;
-import io.quarkus.hibernate.orm.panache.Panache;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
-import java.math.BigDecimal;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped

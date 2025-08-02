@@ -1,6 +1,5 @@
-package de.thi;
+package de.thi.benchmark;
 
-import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
