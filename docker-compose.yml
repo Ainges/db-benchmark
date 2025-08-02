@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  db-benchmark:
+    image: ghcr.io/ainges/db-benchmark:latest
+    ports:
+      - "8080:8080"
+    environment:
+      QUARKUS_DATASOURCE_USERNAME: ${QUARKUS_DATASOURCE_USERNAME}
+      QUARKUS_DATASOURCE_PASSWORD: ${QUARKUS_DATASOURCE_PASSWORD}
+      QUARKUS_DATASOURCE_JDBC_URL: ${QUARKUS_DATASOURCE_JDBC_URL}
