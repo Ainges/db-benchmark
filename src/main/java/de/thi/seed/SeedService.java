@@ -31,5 +31,7 @@ public class SeedService {
 
         batchService.seedOrders(orderCount, users, products);
         LOGGER.info("Order-Seeding abgeschlossen.");
+
+        LOGGER.info("Seeding done!");
     }
 }

@@ -73,20 +73,9 @@ public class SeedBatchService {
         return products;
     }
 
+    // todo: remove batching for orders
     public void seedOrders(int count, List<User> users, List<Product> products) {
-        int batchSize = 1000;
-        int batches = (int) Math.ceil(count / (double) batchSize);
-
-        for (int b = 0; b < batches; b++) {
-            int start = b * batchSize;
-            int end = Math.min(start + batchSize, count);
-            seedOrderBatch(start, end, users, products);
-            LOGGER.infof("  → Batch %d (%d–%d) abgeschlossen", b + 1, start, end);
-        }
-    }
-
-    void seedOrderBatch(int startIndex, int endIndex, List<User> users, List<Product> products) {
-        for (int i = startIndex; i < endIndex; i++) {
+        for (int i = 0; i < count; i++) {
             Order order = new Order();
             order.user = users.get(random.nextInt(users.size()));
             order.createdAt = LocalDateTime.now().minusDays(random.nextInt(30));
@@ -113,8 +102,6 @@ public class SeedBatchService {
                 item.persist();
 
             }
-
-
         }
     }
 }
