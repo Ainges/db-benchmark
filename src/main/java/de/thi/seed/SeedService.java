@@ -2,8 +2,10 @@ package de.thi.seed;
 
 import de.thi.entity.Product;
 import de.thi.entity.User;
+import io.quarkus.narayana.jta.runtime.TransactionConfiguration;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
 import java.util.List;
@@ -16,6 +18,8 @@ public class SeedService {
     @Inject
     SeedBatchService batchService;
 
+    @TransactionConfiguration(timeout = 7200) // 2h
+    @Transactional
     public void seed(int userCount, int productCount, int orderCount) {
         LOGGER.infof("Starte Seeding: %d Nutzer, %d Produkte, %d Bestellungen", userCount, productCount, orderCount);
 

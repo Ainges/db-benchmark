@@ -5,6 +5,8 @@ import de.thi.entity.OrderItem;
 import de.thi.entity.Product;
 import de.thi.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.jboss.logging.Logger;
 
@@ -23,7 +25,9 @@ public class SeedBatchService {
 
     private final Random random = new Random();
 
-    @Transactional(REQUIRES_NEW)
+    @PersistenceContext
+    EntityManager em;
+
     public List<User> seedUsers(int count) {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -31,17 +35,17 @@ public class SeedBatchService {
             u.name = "User " + i;
             u.email = "user" + i + "@mail.com";
             u.createdAt = LocalDateTime.now().minusDays(random.nextInt(365));
-            u.persist();
+            em.persist(u);
             users.add(u);
 
-            if (i % 1000 == 0) {
+            if (i % 500 == 0) {
+
                 LOGGER.infof("  → %d Nutzer erstellt", i);
             }
         }
         return users;
     }
 
-    @Transactional(REQUIRES_NEW)
     public List<Product> seedProducts(int count) {
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -62,6 +66,7 @@ public class SeedBatchService {
             products.add(p);
 
             if (i % 500 == 0) {
+
                 LOGGER.infof("  → %d Produkte erstellt", i);
             }
         }
@@ -80,7 +85,6 @@ public class SeedBatchService {
         }
     }
 
-    @Transactional(REQUIRES_NEW)
     void seedOrderBatch(int startIndex, int endIndex, List<User> users, List<Product> products) {
         for (int i = startIndex; i < endIndex; i++) {
             Order order = new Order();
@@ -93,6 +97,11 @@ public class SeedBatchService {
             };
             order.persist();
 
+            if (i % 500 == 0) {
+
+                LOGGER.infof("  → %d Order erstellt", i);
+            }
+
             int itemCount = 1 + random.nextInt(4);
             for (int j = 0; j < itemCount; j++) {
                 OrderItem item = new OrderItem();
@@ -102,7 +111,10 @@ public class SeedBatchService {
                 item.quantity = 1 + random.nextInt(3);
                 item.priceAtOrder = product.price;
                 item.persist();
+
             }
+
+
         }
     }
 }
